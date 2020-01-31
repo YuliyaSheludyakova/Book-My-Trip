@@ -29,8 +29,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 * Download this repository to the desktop.
 * Open the root folder in a terminal.
-* Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-* The app has a custom color palette which has to be inserted into the file _theming.scss. Please find further details here: frontend/custom-palette.md
+* Run Spring Boot in back-end.
+* Run `npm install` and then `ng serve` for a dev server. Navigate to **_http://localhost:4200/_**. The app will automatically reload if you change any of the Angular source files.
+* The repository contains a sqldump.backup for PostgreSQL.
+* The app has a custom color palette which has to be inserted into the file **__theming.scss_**. Please find further details here: **_frontend/custom-palette.md_**.
 
 ## Further help
 
@@ -38,6 +40,7 @@ To get more help on the Angular CLI use `ng help` or check out the [Angular CLI 
 
 ## Aknowledgment
 
+* This is a group project created by Yuliya Sheludyakova, Gaini Zhulamanova and Siddika Celik - IT-Consultants trained at YouGrow Academy and IT Frankfurt GmbH.
 * We are very greatful to the coaches from IT Frankfurt GmbH for their help, time, and mentorship.
 * Images were taken from pexels.com. Credits to: 
   - Restaurant Placeholder Image: [Photo by Pixabay from Pexels](https://www.pexels.com/photo/blur-breakfast-chef-cooking-262978/)
