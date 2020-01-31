@@ -40,7 +40,7 @@ To get more help on the Angular CLI use `ng help` or check out the [Angular CLI 
 
 ## Aknowledgment
 
-* This is a group project created by Yuliya Sheludyakova, Gaini Zhulamanova and Siddika Celik - IT-Consultants trained at YouGrow Academy and IT Frankfurt GmbH.
+* This is a group project created by Yuliya Sheludyakova, Gaini Zhulamanova and Siddika Celik, IT-Consultants trained at YouGrow Academy and IT Frankfurt GmbH.
 * We are very greatful to the coaches from IT Frankfurt GmbH for their help, time, and mentorship.
 * Images were taken from pexels.com. Credits to: 
   - Restaurant Placeholder Image: [Photo by Pixabay from Pexels](https://www.pexels.com/photo/blur-breakfast-chef-cooking-262978/)
