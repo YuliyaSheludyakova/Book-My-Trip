@@ -31,7 +31,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 * Open the root folder in a terminal.
 * Run Spring Boot in back-end.
 * Run `npm install` and then `ng serve` for a dev server. Navigate to **_http://localhost:4200/_**. The app will automatically reload if you change any of the Angular source files.
-* The repository contains a sqldump.backup for PostgreSQL.
+* The repository contains a **_sqldump.backup_** for PostgreSQL.
 * The app has a custom color palette which has to be inserted into the file **__theming.scss_**. Please find further details here: **_frontend/custom-palette.md_**.
 
 ## Further help
