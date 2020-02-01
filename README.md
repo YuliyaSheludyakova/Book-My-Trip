@@ -5,13 +5,12 @@ The final group project at the YouGrow Bootcamp. The web app simulates a travel 
 ## Table of Contents
 
 * [Built with](#built-with)
-* [Quickstart](#quickstart)
+* [Used technologies](#used-technologies)
 * [Further help](#further-help)
 * [Aknowledgment](#aknowledgment)
 
-## Built with
+## Used technologies
 
-The app was built with the following technologies and resources:
 * Front-End
   - HTML
   - CSS
@@ -24,7 +23,7 @@ The app was built with the following technologies and resources:
   - JPA, Hibernate
   - PostgreSQL
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.20.
+The project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.20.
 
 ## Quickstart
 
@@ -41,7 +40,7 @@ To get more help on the Angular CLI use `ng help` or check out the [Angular CLI 
 
 ## Aknowledgment
 
-* This is a group project created by Yuliya Sheludyakova, Gaini Zhulamanova and Siddika Celik, IT-Consultants trained at YouGrow Academy and IT Frankfurt GmbH.
+* This is a group project created by Yuliya Sheludyakova, Gaini Zhulamanova and Siddika Celik trained at YouGrow Academy and IT Frankfurt GmbH.
 * We are very greatful to the coaches from IT Frankfurt GmbH for their help, time, and mentorship.
 * Images were taken from pexels.com. Credits to: 
   - Restaurant Placeholder Image: [Photo by Pixabay from Pexels](https://www.pexels.com/photo/blur-breakfast-chef-cooking-262978/)
