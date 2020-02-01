@@ -1,9 +1,11 @@
 # Book My Trip
 
+The final group project at the YouGrow Bootcamp. The web app simulates a travel guide across several German cities. A user may add, edit or delete places of interest (restaurants, museums or hotels) in each city as well as leave a comment and a rating.
+
 ## Table of Contents
 
 * [Built with](#built-with)
-* [Installation](#installation)
+* [Quickstart](#quickstart)
 * [Further help](#further-help)
 * [Aknowledgment](#aknowledgment)
 
