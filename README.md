@@ -13,26 +13,25 @@ The app was built with the following technologies and resources:
 * Front-End
   - HTML
   - CSS
-  - TypeScript
+  - JavaScript / TypeScript
   - Angular, incl. Angular Material
-  - Bootstrap
-  - Font Awesome
+  - Bootstrap, Font Awesome
 * Back-End
   - Java
   - Spring Boot
-  - Hibernate
+  - JPA, Hibernate
   - PostgreSQL
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.20.
 
-## Installation
+## Quickstart
 
-* Download this repository to the desktop.
-* Open the root folder in a terminal.
+* Download or Clone this repository.
 * Run Spring Boot in back-end.
-* Run `npm install` and then `ng serve` for a dev server. Navigate to **_http://localhost:4200/_**. The app will automatically reload if you change any of the Angular source files.
 * The repository contains a **_sqldump.backup_** file for PostgreSQL.
 * The app has a custom color palette which has to be inserted into the file **__theming.scss_**. Please find further details here: **_frontend/custom-palette.md_**.
+* Open the front-end root folder in a terminal.
+* Run `npm install` and then `ng serve` for a dev server. Navigate to **_http://localhost:4200/_**. The app will automatically reload if you change any of the Angular source files.
 
 ## Further help
 
