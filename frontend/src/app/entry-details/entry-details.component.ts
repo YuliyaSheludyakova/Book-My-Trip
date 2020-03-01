@@ -48,7 +48,7 @@ export class EntryDetailsComponent implements OnInit {
   }
 
   isNull(element: any): boolean {
-    return element === null || element === undefined
+    return element === null || element === undefined || element === '';
   }
 
   toReviewForm() {

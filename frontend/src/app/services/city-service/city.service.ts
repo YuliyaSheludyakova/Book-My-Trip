@@ -10,7 +10,7 @@ export class CityService {
   private url = 'http://localhost:8080/book-my-trip';
   constructor(private http: HttpClient) { }
 
-  public getAllCities(): Observable<string[]> {
+  public getAll(): Observable<string[]> {
     return this.http.get<string[]>(this.url);
   }
 }

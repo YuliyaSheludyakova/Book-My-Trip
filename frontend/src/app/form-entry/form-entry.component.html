@@ -1,0 +1,213 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-content>
+    <!-- Header -->
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="sidenav.toggle()" class="hidden">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <span>
+        <a class="navbar-brand d-lg-inline-block" href="/book-my-trip">
+          <img src="/assets/logo.svg" height="36" alt="Logo">
+        </a>
+      </span>
+
+      <span class="spacer"></span>
+
+      <!-- Navigation in the header on big screens -->
+      <div>
+        <nav class="stroke">
+          <ul class="hidden">
+            <li><a href="/book-my-trip/{{cityURL}}/restaurants">Restaurants</a></li>
+            <li><a href="/book-my-trip/{{cityURL}}/hotels">Hotels</a></li>
+            <li><a href="/book-my-trip/{{cityURL}}/museen">Museen</a></li>
+          </ul>
+        </nav>
+      </div>
+
+    </mat-toolbar>
+
+    <!-- Navigation for smaller screens -->
+    <mat-sidenav #sidenav id="nav-mobile" class="stroke" position="end">
+      <mat-nav-list>
+        <a (click)="sidenav.toggle()" class="close" mat-list-item>Schließen</a>
+        <ul>
+          <li><a href="/book-my-trip/{{cityURL}}/restaurants">Restaurants</a></li>
+          <li><a href="/book-my-trip/{{cityURL}}/hotels">Hotels</a></li>
+          <li><a href="/book-my-trip/{{cityURL}}/museen">Museen</a></li>
+        </ul>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <!-- Main content -->
+
+    <main class="container-fluid main-content">
+      <form [formGroup]="form">
+        <h4 class="form-title">Neuer Eintrag</h4>
+
+        <section class="row">
+          <mat-card-header>
+            <h4>Tragen Sie bitte hier Ihre Daten ein:</h4>
+          </mat-card-header>
+        </section>
+
+        <section class="col">
+          <mat-card class="info-card">
+            <mat-card-content>
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <mat-label>Stadt</mat-label>
+                    <mat-select [(value)]="cityURL" [disabled]="hasCityURL" formControlName="city" required>
+                      <mat-option *ngFor="let city of cities" [value]="city">
+                        {{city}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.controls['city'].hasError('required')">
+                      <strong>Pflichtfeld</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <mat-label>Kategorie des Eintrags</mat-label>
+                    <mat-select [(value)]="entriesURL" [disabled]="hasEntriesURL" (valueChange)="getTypes()"
+                      formControlName="entryType" required>
+                      <mat-option value="restaurants">Restaurant</mat-option>
+                      <mat-option value="hotels">Hotel</mat-option>
+                      <mat-option value="museen">Museum</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.controls['entryType'].hasError('required')">
+                      <strong>Pflichtfeld</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <input matInput placeholder="Name Ihres Geschäftes" formControlName="company" required>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <input matInput placeholder="Straße" formControlName="streetName" required>
+                    <mat-error *ngIf="form.controls['streetName'].hasError('required')">
+                      <strong>Pflichtfeld</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <input matInput placeholder="Hausnummer" type="number" formControlName="houseNumber" required>
+                    <mat-error *ngIf="form.controls['houseNumber'].hasError('required')">
+                      <strong>Pflichtfeld</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <input matInput #postalCode maxlength="5" placeholder="PLZ" type="number"
+                      formControlName="postalCode" required>
+                    <mat-error *ngIf="form.controls['postalCode'].hasError('required')">
+                      <strong>Pflichtfeld</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <input matInput type="tel" id="phone" placeholder="Telefonnummer" formControlName="phoneNumber">
+                    <mat-icon matSuffix>phone</mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="entriesURL === 'museen' || entriesURL === 'restaurants'">
+                <div class="col">
+                  <p>Wählen Sie bitte Ihre Preisstufe aus *</p>
+                  <mat-radio-group aria-label="Select an option" class="radio-buttons" formControlName="priceLevel"
+                    name="priceLevel" [required]="!hasEntryId">
+                    <mat-radio-button value="1" [checked]="entry?.priceLevel === 1">Guenstige Preise</mat-radio-button>
+                    <mat-radio-button value="2" [checked]="entry?.priceLevel === 2">Mittlere Preise</mat-radio-button>
+                    <mat-radio-button value="3" [checked]="entry?.priceLevel === 3">Teure Preise</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="entriesURL === 'hotels'">
+                <div class="col">
+                  <div class="stars"></div>
+                  <p>Wählen Sie bitte aus, wie viele Sterne Ihr Hotel hat *</p>
+                  <mat-radio-group *ngFor="let star of [1, 2, 3, 4, 5]" aria-label="Select an option"
+                    formControlName="stars" name="stars" [required]="!hasEntryId">
+                    <mat-radio-button [value]="star" [checked]="entry?.stars === star">{{star}}</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="entriesURL === 'hotels'">
+                <div class="col breakfastIncl">
+                  <p>Wählen Sie bitte aus, ob Sie das Frühstück inklusive anbieten *</p>
+                  <mat-radio-group aria-label="Select an option" class="radio-buttons" formControlName="breakfastIncl"
+                    name="breakfastIncl" [required]="!hasEntryId">
+                    <mat-radio-button value="true" [checked]="entry?.breakfastIncl === true">Ja</mat-radio-button>
+                    <mat-radio-button value="false" [checked]="entry?.breakfastIncl === false">Nein</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="entriesURL !== 'hotels'">
+                <div class="col">
+                  <p *ngIf="entriesURL === 'museen'">Wählen Sie bitte die Art(en) Ihres Museums aus *</p>
+                  <p *ngIf="entriesURL === 'restaurants'">Wählen Sie bitte die Art(en) Ihrer Küche aus *</p>
+                  <div class="columns">
+                    <div *ngFor="let type of types">
+                      <mat-checkbox class="checkbox-item" #checkbox="matCheckbox" [checked]="isTypeChecked(type)" (change)="onChange(checkbox, type)">
+                        {{type}}
+                      </mat-checkbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cancel-button">
+                <button mat-raised-button class="buttons" (click)="onCancel()">Abbrechen</button>
+              </div>
+
+              <div class="submit-button">
+                <app-thank-you-modal-form-entry [valid]="isFormValid()" (submit)="onSubmit()">
+                </app-thank-you-modal-form-entry>
+              </div>
+
+            </mat-card-content>
+          </mat-card>
+        </section>
+      </form>
+
+    </main>
+    
+    <footer class="row">
+      <mat-toolbar color="primary">
+        <app-footer></app-footer>
+      </mat-toolbar>
+    </footer>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

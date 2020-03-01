@@ -12,22 +12,22 @@ export class ReviewService {
   constructor(private http: HttpClient) {}
 
   public getAll(city: string, entries: string, entryId: number): Observable<Review[]>{
-    return this.http.get<Review[]>(this.url + city + '/' + entries + '/' + entryId  + '/reviews');
+    return this.http.get<Review[]>(this.url + city + '/' + entries + '/' + entryId  + '/bewertungen');
   }
 
   public showById(city: string, entries: string, entryId: number, reviewId: number): Observable<Review> {
-    return this.http.get<Review>(this.url + city + '/' + entries + '/' + entryId  + '/reviews/' + reviewId);
+    return this.http.get<Review>(this.url + city + '/' + entries + '/' + entryId  + '/bewertungen/' + reviewId);
   }
 
   public add(city: string, entries: string, entryId: number, review: Review): Observable<Review>{
-    return this.http.post<Review>(this.url + city + '/' + entries + '/' + entryId  + '/reviews', review);
+    return this.http.post<Review>(this.url + city + '/' + entries + '/' + entryId  + '/bewertungen', review);
   }
 
   public update(city: string, entries: string, entryId: number, reviewId: number, review: Review): Observable<Review> {
-    return this.http.put<Review>(this.url + city + '/' + entries + '/' + entryId  + '/reviews/' + reviewId, review);
+    return this.http.put<Review>(this.url + city + '/' + entries + '/' + entryId  + '/bewertungen/' + reviewId, review);
   }
 
   public delete(city: string, entries: string, entryId: number, reviewId: number): Observable<any> {
-    return this.http.delete<any>(this.url + city + '/' + entries + '/' + entryId  + '/reviews/' + reviewId);
+    return this.http.delete<any>(this.url + city + '/' + entries + '/' + entryId  + '/bewertungen/' + reviewId);
   }
 }

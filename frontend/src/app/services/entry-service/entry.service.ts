@@ -19,7 +19,7 @@ export class EntryService {
   }
 
   public showByName(city: string, entries:string, name: string): Observable<any[]> {
-    return this.http.get<any[]>(this.url + city + '/' + entries + '/search?name=' + name);
+    return this.http.get<any[]>(this.url + city + '/' + entries + '/suchen?name=' + name);
   }
 
   public showByFilter(city: string,
@@ -27,19 +27,19 @@ export class EntryService {
                       cuisine: string,
                       rating: string,
                       priceLevel: string,
-                      breakfast: string,
+                      breakfastIncl: string,
                       stars: string,
-                      type: string): Observable<any[]> {
+                      museumType: string): Observable<any[]> {
 
     let params = new HttpParams();
     if (cuisine && entries === 'restaurants') {
       params = params.append('cuisine', cuisine);
     }
-    if (type && entries === 'museen') {
-      params = params.append('type', type);
+    if (museumType && entries === 'museen') {
+      params = params.append('museumType', museumType);
     }
-    if (breakfast && entries === 'hotels') {
-      params = params.append('breakfast', breakfast);
+    if (breakfastIncl && entries === 'hotels') {
+      params = params.append('breakfastIncl', breakfastIncl);
     }
     if (stars && entries === 'hotels') {
       params = params.append('stars', stars);

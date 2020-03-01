@@ -26,19 +26,19 @@ export class CityQuestionModalComponent implements OnInit {
   chosenCity: string;
 
   constructor(private modalService: NgbModal,
-              private router: Router) {}
+              private router: Router) { }
+
+  ngOnInit() { }
 
   openVerticallyCentered(content) {
     this.modalService.open(content, {centered: true});
   }
 
-  ngOnInit() {}
-
   setChosenCity(city: string) {
     this.chosenCity = city;
   }
 
-  toSidebarFilter() {
+  toEntriesList() {
     this.modalService.dismissAll('content');
     this.router.navigate(['book-my-trip', this.chosenCity, 'restaurants']);
   }

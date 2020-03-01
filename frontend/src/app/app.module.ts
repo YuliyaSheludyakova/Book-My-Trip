@@ -28,7 +28,7 @@ import { CarouselCardsComponent } from './homepage/carousel-cards/carousel-cards
 import { StarRatingComponent } from './form-review/star-rating/star-rating.component';
 import { CommentComponent } from './entry-details/comment/comment.component';
 import { ThankYouModalComponent } from './form-review/thank-you-modal/thank-you-modal.component';
-import { FormEntityComponent } from './form-entry/form-entity.component';
+import { FormEntryComponent } from './form-entry/form-entry.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -36,9 +36,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { ButtonNewEntryComponent } from './form-entry/button-new-entry/button-new-entry.component';
 import { SearchFieldCitiesComponent } from './homepage/city-question-modal/search-field-cities/search-field-cities.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ThankYouModalFormEntityComponent } from './form-entry/thank-you-modal-form-entity/thank-you-modal-form-entity.component';
 import { SearchCitiesPipe } from './homepage/city-question-modal/search-field-cities/search-cities-pipe/search-cities.pipe';
-import { ShowAddressPipe } from './entry-details/show-address-pipe/show-address.pipe';
+//import { ShowAddressPipe } from './entry-details/show-address-pipe/show-address.pipe';
 import { EntriesListComponent } from './entries-list/entries-list.component';
 import { SidebarComponent } from './entries-list/sidebar/sidebar.component';
 import { CardComponent } from './entries-list/card/card.component';
@@ -48,6 +47,7 @@ import { ModalMoreOptionsComponent } from './entries-list/sidebar/modal-more-opt
 import { ShowInclusivePipe } from './entries-list/card/show-inclusive-pipe/show-inclusive.pipe';
 import { ShowPriceLevelPipe } from './entries-list/card/show-price-level-pipe/show-price-level.pipe';
 import { DeleteModalComponent } from './entries-list/delete-modal/delete-modal.component';
+import { ThankYouModalFormEntryComponent } from './form-entry/thank-you-modal-form-entry/thank-you-modal-form-entry.component';
 
 @NgModule({
   declarations: [
@@ -67,13 +67,13 @@ import { DeleteModalComponent } from './entries-list/delete-modal/delete-modal.c
     CommentComponent,
     ThankYouModalComponent,
     SearchFieldComponent,
-    FormEntityComponent,
+    FormEntryComponent,
     ShowTypesPipe,
     ButtonNewEntryComponent,
     ModalMoreOptionsComponent,
     ShowInclusivePipe,
-    ShowAddressPipe,
-    ThankYouModalFormEntityComponent,
+    //ShowAddressPipe,
+    ThankYouModalFormEntryComponent,
     ShowPriceLevelPipe,
     DeleteModalComponent
   ],

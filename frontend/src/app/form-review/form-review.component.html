@@ -59,7 +59,10 @@
                         </tr>
                         <tr>
                             <td><h6>Adresse:</h6></td>
-                            <td>{{entry.contact | showAddress}}</td>
+                            <td>{{entry.detailedContact.streetName}}</td>
+                            <td>{{entry.detailedContact.houseNumber}},</td>
+                            <td>{{entry.detailedContact.postalCode}}</td>
+                            <td>{{entry.city.name}}</td>
                         </tr>
                         <tr *ngIf="reviewId">
                             <td style="width: 35%"><h6>letzter Stand:</h6></td>

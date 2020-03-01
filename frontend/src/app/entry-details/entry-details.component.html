@@ -69,11 +69,15 @@
             <table>
               <tr>
                 <th>Adresse:</th>
-                <td>{{entry.contact | showAddress}}</td>
+                <td>{{entry.detailedContact.streetName}} {{entry.detailedContact.houseNumber}},</td>
               </tr>
-              <tr *ngIf="!isNull(entry.contact.phoneNumber)">
+              <tr>
+                <th></th>
+                <td>{{entry.detailedContact.postalCode}} {{entry.city.name}}</td>
+              </tr>            
+              <tr *ngIf="!isNull(entry.detailedContact.phoneNumber)">
                 <th>Telefonnummer:</th>
-                <td>{{entry.contact.phoneNumber}}</td>
+                <td>{{entry.detailedContact.phoneNumber}}</td>
               </tr>
               <tr>
                 <th style="width: 35%">Bewertung:</th>
