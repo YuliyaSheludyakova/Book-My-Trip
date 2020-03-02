@@ -12,9 +12,9 @@
             <li *ngIf="!entryTypeMatches('hotels')"><span class="card-text"><b>Preisstufe</b></span>:
               {{entry.priceLevel | showPriceLevel}}</li>
             <li *ngIf="entryTypeMatches('restaurants')"><span class="card-text"><b>Küchen</b></span>:
-              {{entry.cuisines | showTypes:"restaurantsList"}}</li>
+              {{entry.cuisines | showTypes:"restaurantCard"}}</li>
             <li *ngIf="entryTypeMatches('museen')"><span class="card-text"><b>Arten</b></span>:
-              {{entry.museumTypes | showTypes:"museumsList"}}</li>
+              {{entry.museumTypes | showTypes:"museumCard"}}</li>
             <li *ngIf="entryTypeMatches('hotels')"><span class="card-text"><b>Sterne</b></span>:
               {{entry.stars}}</li>
             <li *ngIf="entryTypeMatches('hotels')"><span class="card-text"><b>Frühstück</b></span>:
