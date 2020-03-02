@@ -91,11 +91,11 @@
               </tr>
               <tr *ngIf="entryTypeMatches('restaurants')">
                 <th>Küchen:</th>
-                <td>{{entry.cuisines | showTypes:"detailPage"}}</td>
+                <td>{{entry.cuisines | showTypes}}</td>
               </tr>
               <tr *ngIf="entryTypeMatches('museen')">
                 <th>Museumsarten:</th>
-                <td>{{entry.museumTypes | showTypes:"detailPage"}}</td>
+                <td>{{entry.museumTypes | showTypes}}</td>
               </tr>
               <tr *ngIf="!entryTypeMatches('hotels')">
                 <th>Preisstufe:</th>
