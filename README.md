@@ -4,12 +4,12 @@ The final group project at the YouGrow Bootcamp. The web app simulates a travel 
 
 ## Table of Contents
 
-* [Built with](#built-with)
-* [Used technologies](#used-technologies)
-* [Further help](#further-help)
+* [Used Technologies](#used-technologies)
+* [Quickstart](#quickstart)
+* [Further Help](#further-Help)
 * [Aknowledgment](#aknowledgment)
 
-## Used technologies
+## Used Technologies
 
 * Front-End
   - HTML
@@ -29,7 +29,7 @@ The project was generated with [Angular CLI](https://github.com/angular/angular-
 
 * Download or Clone this repository.
 * Run Spring Boot in back-end.
-* The repository contains a **_sqldump.backup_** file for PostgreSQL.
+* The repository contains a **_sqldump.backup_** file for PostgreSQL. Please note that for demonstration purposes the data is available only for the city of **Berlin**. 
 * The app has a custom color palette which has to be inserted into the file **__theming.scss_**. Please find further details here: **_frontend/custom-palette.md_**.
 * Open the front-end root folder in a terminal.
 * Run `npm install` and then `ng serve` for a dev server. Navigate to **_http://localhost:4200/_**. The app will automatically reload if you change any of the Angular source files.
