@@ -25,22 +25,22 @@ export class ShowTypesPipe implements PipeTransform {
     return this.concatinated;
   }
 
-  isMuseumCard(): boolean {
+  private isMuseumCard(): boolean {
     return this.origin === 'museumCard';
   }
 
-  isRestaurantCard(): boolean {
+  private isRestaurantCard(): boolean {
     return this.origin === 'restaurantCard';
   }
 
-  transfromForCard() {
+  private transfromForCard(): void {
     this.concatinated += this.types[0].type.toLowerCase();
     if (this.length > 1) {
       this.concatinated += ' & mehr';
     }
   }
 
-  transformForDetails() {
+  private transformForDetails(): void {
     for (let i = 0; i < this.length; i++) {
       if (this.isLastElement(i)) {
         this.concatinated += this.types[i].type.toLowerCase();
@@ -50,7 +50,7 @@ export class ShowTypesPipe implements PipeTransform {
     }
   }
 
-  isLastElement(elementIndex: number): boolean {
+  private isLastElement(elementIndex: number): boolean {
     return elementIndex === (this.length - 1);
   }
 }

@@ -8,11 +8,11 @@ export class ShowPriceLevelPipe implements PipeTransform {
   transform(priceLevel: number): string {
     switch (priceLevel) {
       case 1:
-        return "günstig";
+        return 'günstig';
       case 2:
-        return "mittel";
+        return 'mittel';
       case 3:
-        return "teuer";
+        return 'teuer';
       default:
         break;
     }
