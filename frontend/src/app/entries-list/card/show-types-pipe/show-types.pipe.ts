@@ -17,7 +17,7 @@ export class ShowTypesPipe implements PipeTransform {
     }
     this.concatinated = '';
     this.length = types.length;    
-    if (this.isMuseumCard() || this.isRestaurantCard()) {
+    if (this.isEntryCard()) {
       this.transfromForCard();
     } else {
       this.transformForDetails();
@@ -25,12 +25,8 @@ export class ShowTypesPipe implements PipeTransform {
     return this.concatinated;
   }
 
-  private isMuseumCard(): boolean {
-    return this.origin === 'museumCard';
-  }
-
-  private isRestaurantCard(): boolean {
-    return this.origin === 'restaurantCard';
+  private isEntryCard(): boolean {
+    return this.origin === 'entryCard';
   }
 
   private transfromForCard(): void {
