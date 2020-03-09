@@ -1,11 +1,21 @@
 package bookmytrip.controller;
 
-import java.util.*;
+import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import bookmytrip.entity.Museum;
 import bookmytrip.repository.MuseumRepository;
@@ -15,73 +25,66 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/book-my-trip/{city}/museen")
 public class MuseumController {
-	
+
 	private final MuseumRepository museumRepo;
-	
+
 	@GetMapping
-	public List<Museum> getAllByCity(@PathVariable String city) {
+	public List<Museum> getByCity(@PathVariable String city) {
 		return museumRepo.findByCityOrderByName(city);
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getById(
-			@PathVariable Long id,
-			@PathVariable String city) {
-		var maybeMuseums = Optional.of(
-				museumRepo.findByCityAndId(city, id));
-		return ResponseEntity.of(maybeMuseums);
+	public ResponseEntity<?> getById(@PathVariable Long id,
+			                         @PathVariable String city) {
+		var maybeMuseum = museumRepo.findByCityAndId(city, id);
+		return ResponseEntity.of(maybeMuseum);
 	}
-	
+
 	@GetMapping("/suchen")
-	public List<Museum> getByName(
-			@PathVariable String city, 
-			@RequestParam(required = false) String name) {
+	public List<Museum> getByName(@PathVariable String city,
+			                      @RequestParam(required = false) String name) {
 		return museumRepo.findByCityAndNameOrderByRating(city, name);
 	}
-	
+
 	@GetMapping("/filter")
-	public List<Museum> getByFilter(
-			@PathVariable String city, 
-			@RequestParam(required = false) String museumType, 
-			@RequestParam(required = false) Integer priceLevel,
-			@RequestParam(required = false) Integer rating) {		
-		List<Museum> maybeMuseums = null;	
+	public List<Museum> getByFilter(@PathVariable String city,
+			                        @RequestParam(required = false) String museumType,
+			                        @RequestParam(required = false) Integer priceLevel,
+			                        @RequestParam(required = false) Integer rating) {
+		List<Museum> maybeMuseums = null;
 		maybeMuseums = museumRepo.filterByMuseumType(maybeMuseums, museumType, city);
 		maybeMuseums = museumRepo.filterByPriceLevel(maybeMuseums, priceLevel, city);
 		maybeMuseums = museumRepo.filterByRating(maybeMuseums, rating, city);
-		return maybeMuseums;		
+		return maybeMuseums;
 	}
-	
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Museum create(
-			@PathVariable String city,
-			@RequestBody @Valid Museum museum) {
+	public Museum create(@PathVariable String city,
+			             @RequestBody @Valid Museum museum) {
 		museumRepo.setDefaults(museum, city, null);
 		return museumRepo.save(museum);
-	}	
-	
+	}
+
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(
-			@PathVariable Long id,
-			@RequestBody @Valid Museum museum, 
-			@PathVariable String city) {
+	public ResponseEntity<?> update(@PathVariable Long id,
+			                        @RequestBody @Valid Museum museum,
+			                        @PathVariable String city) {
 		museumRepo.setDefaults(museum, city, id);
 		if (museumRepo.existsByCityAndId(city, id)) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}		
-		museumRepo.save(museum);
-		return new ResponseEntity<>(HttpStatus.OK);
+			museumRepo.save(museum);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(
-			@PathVariable Long id,
-			@PathVariable String city) {
+	public ResponseEntity<?> delete(@PathVariable Long id,
+			                        @PathVariable String city) {
 		if (museumRepo.existsByCityAndId(city, id)) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}		
-		museumRepo.deleteById(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			museumRepo.deleteById(id);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 }

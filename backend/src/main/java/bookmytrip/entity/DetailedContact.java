@@ -1,26 +1,31 @@
 package bookmytrip.entity;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.validation.constraints.NotBlank;
 
-import lombok.*;
+import com.sun.istack.NotNull;
 
-@Getter @Setter
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Embeddable
 public class DetailedContact {
-	
+
 	@NotBlank
 	private String phoneNumber;
-	
+
 	@NotBlank
 	@NotNull
 	@Column(nullable = false)
 	private String streetName;
-	
+
 	@NotNull
 	@Column(nullable = false)
 	private int houseNumber;
-	
+
 	@NotNull
 	@Column(nullable = false)
 	private int postalCode;
