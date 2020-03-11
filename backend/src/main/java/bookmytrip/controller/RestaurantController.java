@@ -1,7 +1,5 @@
 package bookmytrip.controller;
 
-
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -31,7 +29,7 @@ public class RestaurantController {
 	private final RestaurantRepository restaurantRepo;
 
 	@GetMapping
-	public List<Restaurant> getAll(@PathVariable String city) {
+	public List<Restaurant> getByCity(@PathVariable String city) {
 		return restaurantRepo.findByCityOrderByName(city);
 	}
 
@@ -64,17 +62,16 @@ public class RestaurantController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Restaurant create(@PathVariable String city,
 			                 @RequestBody @Valid Restaurant restaurant) {
-		restaurantRepo.setDefaults(restaurant, city, null);
-		return restaurantRepo.save(restaurant);
+		return restaurantRepo.saveWithDefaults(restaurant, city, null);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@PathVariable Long id,
 			                        @PathVariable String city,
 			                        @RequestBody @Valid Restaurant restaurant) {
-		restaurantRepo.setDefaults(restaurant, city, id);
-		if (restaurantRepo.existsByCityAndId(city, id)) {
-			restaurantRepo.save(restaurant);
+		boolean exists = restaurantRepo.existsByCityAndId(city, id);
+		if (exists) {
+			restaurantRepo.saveWithDefaults(restaurant, city, id);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -83,7 +80,8 @@ public class RestaurantController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id,
 			                        @PathVariable String city) {
-		if (restaurantRepo.existsByCityAndId(city, id)) {
+		boolean exists = restaurantRepo.existsByCityAndId(city, id);
+		if (exists) {
 			restaurantRepo.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

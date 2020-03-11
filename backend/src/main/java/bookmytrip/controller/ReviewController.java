@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,13 +30,8 @@ public class ReviewController {
 	@GetMapping
 	public List<Review> getByEntryId(@PathVariable String city,
 			                         @PathVariable String entries,
-			                         @PathVariable Long entryId,
-			                         @RequestParam(required = false) Integer rating) {
-		if (rating != null) {
-			return reviewRepo.filterByRating(city, entries, entryId, rating);
-		} else {
-			return reviewRepo.findAllByCityAndEntryId(city, entries, entryId);
-		}
+			                         @PathVariable Long entryId) {
+	    return reviewRepo.findBy(city, entries, entryId);
 	}
 
 	@GetMapping("/{id}")
@@ -45,15 +39,14 @@ public class ReviewController {
 			                         @PathVariable String entries,
 			                         @PathVariable Long entryId,
 			                         @PathVariable Long id) {
-		var maybeReview = reviewRepo.findByCityAndEntryIdAndId(city, entries, entryId, id);
+		var maybeReview = reviewRepo.findBy(city, entries, entryId, id);
 		return ResponseEntity.of(maybeReview);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Review create(@RequestBody @Valid Review review) {
-		review.setId(null);
-		return reviewRepo.save(review);
+		return reviewRepo.saveWithDefaults(review, null);
 	}
 
 	@PutMapping("/{id}")
@@ -62,12 +55,12 @@ public class ReviewController {
 			                        @PathVariable Long entryId,
 			                        @PathVariable Long id,
 			                        @RequestBody Review review) {
-		review.setId(id);
-		if (reviewRepo.existsByCityAndEntryIdAndId(city, entries, entryId, id)) {
-			return new ResponseEntity<>(review, HttpStatus.NOT_FOUND);
+		boolean exists = reviewRepo.existsBy(city, entries, entryId, id);
+		if (exists) {
+			reviewRepo.saveWithDefaults(review, id);
+			return new ResponseEntity<>(review, HttpStatus.OK);
 		}
-		reviewRepo.save(review);
-		return new ResponseEntity<>(review, HttpStatus.OK);
+		return new ResponseEntity<>(review, HttpStatus.NOT_FOUND);
 	}
 
 	@DeleteMapping("/{id}")
@@ -75,7 +68,8 @@ public class ReviewController {
 			                        @PathVariable String entries,
 			                        @PathVariable Long entryId,
 			                        @PathVariable Long id) {
-		if (reviewRepo.existsByCityAndEntryIdAndId(city, entries, entryId, id)) {
+		boolean exists = reviewRepo.existsBy(city, entries, entryId, id);
+		if (exists) {
 			reviewRepo.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

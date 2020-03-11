@@ -62,18 +62,17 @@ public class HotelController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Hotel create(@PathVariable String city,
 			            @RequestBody @Valid Hotel hotel) {
-		hotelRepo.setDefaults(hotel, city, null);
-		return hotelRepo.save(hotel);
+		return hotelRepo.saveWithDefaults(hotel, city, null);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@PathVariable Long id,
 			                        @RequestBody @Valid Hotel hotel,
 			                        @PathVariable String city) {
-		hotelRepo.setDefaults(hotel, city, id);
-		if (hotelRepo.existsByCityAndId(city, id)) {
-			hotelRepo.save(hotel);
-			return new ResponseEntity<>(HttpStatus.OK);
+		boolean exists = hotelRepo.existsByCityAndId(city, id);
+		if (exists) {
+			hotelRepo.saveWithDefaults(hotel, city, id);
+			new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
@@ -81,7 +80,8 @@ public class HotelController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id,
 			                        @PathVariable String city) {
-		if (hotelRepo.existsByCityAndId(city, id)) {
+		boolean exists = hotelRepo.existsByCityAndId(city, id);
+		if (exists) {
 			hotelRepo.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

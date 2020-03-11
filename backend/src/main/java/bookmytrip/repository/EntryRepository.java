@@ -1,6 +1,5 @@
 package bookmytrip.repository;
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,8 +13,8 @@ public interface EntryRepository<T extends Entry> extends JpaRepository<T, Long>
 
 	default List<T> findByCity(String city) {
 		return findAll().stream()
-				.filter(e -> isMatchByCity(e, city))
-				.collect(Collectors.toList());
+				   .filter(e -> isMatchByCity(e, city))
+				   .collect(Collectors.toList());
 	}
 
 	private boolean isMatchByCity(T entry, String city) {
@@ -24,8 +23,8 @@ public interface EntryRepository<T extends Entry> extends JpaRepository<T, Long>
 
 	default Optional<T> findByCityAndId(String city, Long id) {
 		return findByCity(city).stream()
-				.filter(e -> isMatchById(e, id))
-				.findFirst();
+				   .filter(e -> isMatchById(e, id))
+				   .findFirst();
 	}
 
 	private boolean isMatchById(T entry, Long id) {
@@ -38,33 +37,31 @@ public interface EntryRepository<T extends Entry> extends JpaRepository<T, Long>
 
 	default List<T> findByCityOrderByName(String city) {
 		return findByCity(city).stream()
-				.sorted((e1, e2) -> compareByName(e1, e2))
-				.collect(Collectors.toList());
+				   .sorted((e1, e2) -> compareByName(e1, e2))
+				   .collect(Collectors.toList());
 	}
 
 	default int compareByName(T firstEntry, T secondEntry) {
 		return firstEntry.getName()
-				.compareTo(secondEntry.getName());
+				   .compareTo(secondEntry.getName());
 	}
 
-	default List<T> findByCityAndNameOrderByRating(
-			String city, String searchedName) {
+	default List<T> findByCityAndNameOrderByRating(String city, String searchedName) {
 		return findByCity(city).stream()
-				.filter(e -> isMatchByName(e, searchedName))
-				.sorted((e1, e2) -> compareByAvrgRating(e1, e2))
-				.collect(Collectors.toList());
+				   .filter(e -> isMatchByName(e, searchedName))
+				   .sorted((e1, e2) -> compareByAvrgRating(e1, e2))
+				   .collect(Collectors.toList());
 	}
 
 	private boolean isMatchByName(T entry, String searchedName) {
 		String entryName = entry.getName().toLowerCase();
 		searchedName = searchedName.toLowerCase();
-		return entryName.contains(searchedName) ||
-				searchedName.contains(entryName);
+		return entryName.contains(searchedName) || searchedName.contains(entryName);
 	}
 
 	private int compareByAvrgRating(T firstEntry, T secondEntry) {
 		return firstEntry.getAvrgRating()
-				.compareTo(secondEntry.getAvrgRating());
+				   .compareTo(secondEntry.getAvrgRating());
 	}
 
 	default List<T> filterByRating(List<T> maybeEntries, Integer rating, String city) {
@@ -76,23 +73,25 @@ public interface EntryRepository<T extends Entry> extends JpaRepository<T, Long>
 		return maybeEntries;
 	}
 
-	private List<T> findByCityAndRatingOrderByName(
-			String city, int minRequiredAvrgRating) {
+	private List<T> findByCityAndRatingOrderByName(String city, int minRequiredAvrgRating) {
 		return findByCity(city).stream()
-				.filter(e -> isMinRequiredAvrgRating(e, minRequiredAvrgRating))
-				.sorted((e1, e2) -> compareByName(e1, e2))
-				.collect(Collectors.toList());
+				   .filter(e -> isMinRequiredAvrgRating(e, minRequiredAvrgRating))
+				   .sorted((e1, e2) -> compareByName(e1, e2))
+				   .collect(Collectors.toList());
 	}
 
-	private boolean isMinRequiredAvrgRating(
-			T entry, int minRequiredAvrgRating) {
+	private boolean isMinRequiredAvrgRating(T entry, int minRequiredAvrgRating) {
 		return entry.getAvrgRating() >= minRequiredAvrgRating;
 	}
 
-	default void setDefaults(T entry, String city, Long id) {
+	default T saveWithDefaults(T entry, String city, Long id) {
+		setDefaults(entry, city, id);
+		return save(entry);
+	}
+
+	private void setDefaults(T entry, String city, Long id) {
 		entry.setId(id);
 		entry.getCity().setName(city);
-
 		if (id != null) {
 			entry.setNumOfReviews(getNewNumOfReviews(city, id));
 			entry.setAvrgRating(getNewAvrgRating(city, id));
@@ -106,11 +105,10 @@ public interface EntryRepository<T extends Entry> extends JpaRepository<T, Long>
 
 	private Long calculateAvrgRating(T entry) {
 		List<Review> reviewsList = entry.getReviews();
-		//entry.setNumOfReviews(reviewsList.size());
 		double avrgRating = reviewsList.stream()
-				.map(review -> review.getRating())
-				.mapToInt(rating -> rating)
-				.average().orElse(0);
+				   .map(review -> review.getRating())
+				   .mapToInt(rating -> rating)
+				   .average().orElse(0);
 		return Math.round(avrgRating);
 	}
 

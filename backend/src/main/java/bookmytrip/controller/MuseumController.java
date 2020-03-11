@@ -62,17 +62,16 @@ public class MuseumController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Museum create(@PathVariable String city,
 			             @RequestBody @Valid Museum museum) {
-		museumRepo.setDefaults(museum, city, null);
-		return museumRepo.save(museum);
+		return museumRepo.saveWithDefaults(museum, city, null);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@PathVariable Long id,
 			                        @RequestBody @Valid Museum museum,
 			                        @PathVariable String city) {
-		museumRepo.setDefaults(museum, city, id);
-		if (museumRepo.existsByCityAndId(city, id)) {
-			museumRepo.save(museum);
+		boolean exists = museumRepo.existsByCityAndId(city, id);
+		if (exists) {
+			museumRepo.saveWithDefaults(museum, city, id);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -81,7 +80,8 @@ public class MuseumController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id,
 			                        @PathVariable String city) {
-		if (museumRepo.existsByCityAndId(city, id)) {
+		boolean exists = museumRepo.existsByCityAndId(city, id);
+		if (exists) {
 			museumRepo.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
