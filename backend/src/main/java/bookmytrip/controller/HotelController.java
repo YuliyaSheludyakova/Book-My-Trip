@@ -28,14 +28,14 @@ public class HotelController {
 
 	private final HotelRepository hotelRepo;
 
+	// TODO: city must be changed into a parameter later!
 	@GetMapping
 	public List<Hotel> getByCity(@PathVariable String city) {
 		return hotelRepo.findByCityOrderByName(city);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getById(@PathVariable Long id,
-			                         @PathVariable String city) {
+	public ResponseEntity<?> getById(@PathVariable Long id, @PathVariable String city) {
 		var maybeHotel = hotelRepo.findByCityAndId(city, id);
 		return ResponseEntity.of(maybeHotel);
 	}
@@ -47,15 +47,8 @@ public class HotelController {
 	}
 
 	@GetMapping("/filter")
-	public List<Hotel> getByFilter(@PathVariable String city,
-			                       @RequestParam(required = false) Boolean breakfastIncl,
-			                       @RequestParam(required = false) Integer stars,
-			                       @RequestParam(required = false) Integer rating) {
-		List<Hotel> maybeHotels = null;
-		maybeHotels = hotelRepo.filterByBreakfastIncl(maybeHotels, breakfastIncl, city);
-		maybeHotels = hotelRepo.filterByStars(maybeHotels, stars, city);
-		maybeHotels = hotelRepo.filterByRating(maybeHotels, rating, city);
-		return maybeHotels;
+	public List<Hotel> getByFilter(@PathVariable String city, HotelSpecification hotelSpec) {
+		return hotelRepo.filterBySpecification(city, hotelSpec);
 	}
 
 	@PostMapping
@@ -66,20 +59,18 @@ public class HotelController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable Long id,
-			                        @RequestBody @Valid Hotel hotel,
-			                        @PathVariable String city) {
+	public ResponseEntity<?> update(@PathVariable String city, @PathVariable Long id,
+			                        @RequestBody @Valid Hotel hotel) {
 		boolean exists = hotelRepo.existsByCityAndId(city, id);
 		if (exists) {
 			hotelRepo.saveWithDefaults(hotel, city, id);
-			new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id,
-			                        @PathVariable String city) {
+	public ResponseEntity<?> delete(@PathVariable Long id, @PathVariable String city) {
 		boolean exists = hotelRepo.existsByCityAndId(city, id);
 		if (exists) {
 			hotelRepo.deleteById(id);

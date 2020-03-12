@@ -25,7 +25,7 @@ export class EntryService {
   public showByFilter(city: string,
                       entries: string,
                       cuisine: string,
-                      rating: string,
+                      avrgRating: string,
                       priceLevel: string,
                       breakfastIncl: string,
                       stars: string,
@@ -47,8 +47,8 @@ export class EntryService {
     if (priceLevel && (entries === 'museen' || entries === 'restaurants')) {
       params = params.append('priceLevel', priceLevel);
     }
-    if (rating) {
-      params = params.append('rating', rating);
+    if (avrgRating) {
+      params = params.append('avrgRating', avrgRating);
     }    
     return this.http.get<any[]>(this.url + city + '/' + entries + '/filter', {params: params});
   }

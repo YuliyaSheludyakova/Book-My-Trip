@@ -28,6 +28,7 @@ public class RestaurantController {
 
 	private final RestaurantRepository restaurantRepo;
 
+	// TODO: city must be changed into a parameter later!
 	@GetMapping
 	public List<Restaurant> getByCity(@PathVariable String city) {
 		return restaurantRepo.findByCityOrderByName(city);
@@ -46,16 +47,11 @@ public class RestaurantController {
 		return restaurantRepo.findByCityAndNameOrderByRating(city, name);
 	}
 
+	// TODO: filter by cuisines must be implemented
 	@GetMapping("/filter")
 	public List<Restaurant> getByFilter(@PathVariable String city,
-			                            @RequestParam(required = false) String cuisine,
-			                            @RequestParam(required = false) Integer priceLevel,
-			                            @RequestParam(required = false) Integer rating) {
-		List<Restaurant> maybeRestaurants = null;
-		maybeRestaurants = restaurantRepo.filterByCuisine(maybeRestaurants, cuisine, city);
-		maybeRestaurants = restaurantRepo.filterByPriceLevel(maybeRestaurants, priceLevel, city);
-		maybeRestaurants = restaurantRepo.filterByRating(maybeRestaurants, rating, city);
-		return maybeRestaurants;
+				                        RestaurantSpecification restaurantSpec) {
+		return restaurantRepo.filterBySpecification(city, restaurantSpec);
 	}
 
 	@PostMapping

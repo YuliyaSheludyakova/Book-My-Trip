@@ -5,11 +5,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import bookmytrip.controller.EntrySpecification;
 import bookmytrip.entity.Entry;
 import bookmytrip.entity.Review;
 
-public interface EntryRepository<T extends Entry> extends JpaRepository<T, Long> {
+public interface EntryRepository<T extends Entry> extends JpaRepository<T, Long>, JpaSpecificationExecutor<T> {
+
+	default List<T> filterBySpecification(String city, EntrySpecification<T> entrySpec) {
+		return findAll(entrySpec).stream()
+		           .filter(e -> isMatchByCity(e, city)) // TODO: city must be changed into a parameter later!
+		           .collect(Collectors.toList());
+	}
 
 	default List<T> findByCity(String city) {
 		return findAll().stream()
@@ -17,7 +25,7 @@ public interface EntryRepository<T extends Entry> extends JpaRepository<T, Long>
 				   .collect(Collectors.toList());
 	}
 
-	private boolean isMatchByCity(T entry, String city) {
+	default boolean isMatchByCity(T entry, String city) {
 		return entry.getCity().getName().equals(city);
 	}
 

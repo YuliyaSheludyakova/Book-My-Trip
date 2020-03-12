@@ -152,14 +152,6 @@ export class FormEntryComponent implements OnInit {
     return false;
   }
 
-  transformTypesIntoObjects(): any[] {
-    let types: any[] = [];
-    for (let i = 0; i < this.typesChecked.length; i++) {
-      types.push({type: this.typesChecked[i]});
-    }
-    return types;
-  }
-
   createHotel(): Hotel {
     return {
       name: this.form.value.company,
@@ -211,12 +203,20 @@ export class FormEntryComponent implements OnInit {
     }
   }
 
-  isFormValid(): boolean {
-    let hasTypes: boolean = true;
-    if (this.entriesURL !== 'hotels') {
-      hasTypes = this.typesChecked.length !== 0
+  transformTypesIntoObjects(): any[] {
+    let types: any[] = [];
+    for (let i = 0; i < this.typesChecked.length; i++) {
+      types.push({type: this.typesChecked[i]});
     }
-    return this.form.valid && hasTypes;
+    return types;
+  }
+
+  isFormValid(): boolean {
+    if (this.entriesURL !== 'hotels') {
+      let hasTypes: boolean = this.typesChecked.length !== 0;
+      return this.form.valid && hasTypes;
+    }
+    return this.form.valid;
   }
 
   onSubmit() {
@@ -233,18 +233,13 @@ export class FormEntryComponent implements OnInit {
         break;
       default:
         break;
-    }
-
-    if (this.isFormValid()) {      
-      if (this.entryId) {
-        this.entryService.update(this.cityURL, this.entriesURL, this.entryId, entry)
-          .subscribe(
-            entry =>  this.router.navigate(['book-my-trip', this.cityURL, this.entriesURL])
-          );
-      } else {
-        this.entryService.add(this.cityURL, this.entriesURL, entry)
-          .subscribe(entry => this.router.navigate(['book-my-trip', this.cityURL, this.entriesURL]));
-      }      
-    }    
+    }      
+    if (this.entryId) {
+      this.entryService.update(this.cityURL, this.entriesURL, this.entryId, entry)
+        .subscribe(entry => this.router.navigate(['book-my-trip', this.cityURL, this.entriesURL]));
+    } else {
+      this.entryService.add(this.cityURL, this.entriesURL, entry)
+        .subscribe(entry => this.router.navigate(['book-my-trip', this.cityURL, this.entriesURL]));
+    }        
   }
 }

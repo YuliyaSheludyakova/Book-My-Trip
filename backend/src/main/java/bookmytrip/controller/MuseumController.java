@@ -28,6 +28,7 @@ public class MuseumController {
 
 	private final MuseumRepository museumRepo;
 
+	// TODO: city must be changed into a parameter later!
 	@GetMapping
 	public List<Museum> getByCity(@PathVariable String city) {
 		return museumRepo.findByCityOrderByName(city);
@@ -46,17 +47,22 @@ public class MuseumController {
 		return museumRepo.findByCityAndNameOrderByRating(city, name);
 	}
 
+	// TODO: filter by museum types must be implemented
 	@GetMapping("/filter")
-	public List<Museum> getByFilter(@PathVariable String city,
-			                        @RequestParam(required = false) String museumType,
-			                        @RequestParam(required = false) Integer priceLevel,
-			                        @RequestParam(required = false) Integer rating) {
-		List<Museum> maybeMuseums = null;
-		maybeMuseums = museumRepo.filterByMuseumType(maybeMuseums, museumType, city);
-		maybeMuseums = museumRepo.filterByPriceLevel(maybeMuseums, priceLevel, city);
-		maybeMuseums = museumRepo.filterByRating(maybeMuseums, rating, city);
-		return maybeMuseums;
+	public List<Museum> getByFilter(@PathVariable String city, MuseumSpecification museumSpec) {
+		return museumRepo.filterBySpecification(city, museumSpec);
 	}
+
+//	public List<Museum> getByFilter(@PathVariable String city,
+//			                        @RequestParam(required = false) String museumType,
+//			                        @RequestParam(required = false) Integer priceLevel,
+//			                        @RequestParam(required = false) Integer rating) {
+//		List<Museum> maybeMuseums = null;
+//		maybeMuseums = museumRepo.filterByMuseumType(maybeMuseums, museumType, city);
+//		maybeMuseums = museumRepo.filterByPriceLevel(maybeMuseums, priceLevel, city);
+//		maybeMuseums = museumRepo.filterByRating(maybeMuseums, rating, city);
+//		return maybeMuseums;
+//	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -66,9 +72,8 @@ public class MuseumController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable Long id,
-			                        @RequestBody @Valid Museum museum,
-			                        @PathVariable String city) {
+	public ResponseEntity<?> update(@PathVariable String city, @PathVariable Long id,
+			                        @RequestBody @Valid Museum museum) {
 		boolean exists = museumRepo.existsByCityAndId(city, id);
 		if (exists) {
 			museumRepo.saveWithDefaults(museum, city, id);

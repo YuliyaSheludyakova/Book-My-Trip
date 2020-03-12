@@ -14,7 +14,7 @@ export class EntriesListComponent {
   entries: any[];
   nameOfEntry: string;  
   //Query params
-  rating: string;
+  avrgRating: string;
   priceLevel: string;
   cuisine: string;
   breakfastIncl: string;
@@ -52,7 +52,7 @@ export class EntriesListComponent {
   subscribeToQueryParams(): void {
     this.route.queryParams.subscribe(params => {
       this.nameOfEntry = params['name'];
-      this.rating = params['bewertung'];
+      this.avrgRating = params['bewertung'];
       this.priceLevel = params['preisstufe'];
       this.cuisine = params['küche'];
       this.breakfastIncl = params['frühstück'];
@@ -72,7 +72,7 @@ export class EntriesListComponent {
   }
 
   isQueryParamsActivated(): boolean {
-    return this.rating !== undefined || this.priceLevel !== undefined ||
+    return this.avrgRating !== undefined || this.priceLevel !== undefined ||
            this.cuisine !== undefined || this.breakfastIncl !== undefined ||
            this.stars !== undefined || this.museumType !== undefined;
   }
@@ -107,7 +107,7 @@ export class EntriesListComponent {
     this.router.navigate(['book-my-trip', this.city, this.entriesURL], 
       {queryParams: {
         küche: this.cuisine,
-        bewertung: this.rating,
+        bewertung: this.avrgRating,
         preisstufe: this.priceLevel,
         frühstück: this.breakfastIncl,
         sterne: this.stars,
@@ -115,7 +115,7 @@ export class EntriesListComponent {
       }
     });
     this.entryService.showByFilter(
-      this.city, this.entriesURL, this.cuisine, this.rating,
+      this.city, this.entriesURL, this.cuisine, this.avrgRating,
       this.priceLevel, this.breakfastIncl, this.stars, this.museumType)
         .subscribe(e => {
           this.entries = e;
